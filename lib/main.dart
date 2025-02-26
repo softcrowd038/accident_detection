@@ -17,19 +17,19 @@ import 'package:accident/Presentation/login_and_registration/Model/user_profile.
 import 'package:accident/app/my_app.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:workmanager/workmanager.dart';
+// import 'package:workmanager/workmanager.dart';
 
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    print("task is working in background");
-    return Future.value(true);
-  });
-}
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) async {
+//     WidgetsFlutterBinding.ensureInitialized();
+//     await Firebase.initializeApp();
+//     print("task is working in background");
+//     return Future.value(true);
+//   });
+// }
 
 Future<void> requestPermissions() async {
   Map<Permission, PermissionStatus> statuses = await [
@@ -70,7 +70,7 @@ void main() async {
     }
   });
 
-  Workmanager().initialize(callbackDispatcher);
+  // Workmanager().initialize(callbackDispatcher);
 
   runApp(const MyAppProviders());
 }
@@ -80,11 +80,11 @@ class MyAppProviders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Workmanager().registerPeriodicTask(
-      "1",
-      "simplePeriodicTask",
-      frequency: const Duration(seconds: 5),
-    );
+    // Workmanager().registerPeriodicTask(
+    //   "1",
+    //   "simplePeriodicTask",
+    //   frequency: const Duration(seconds: 5),
+    // );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ProfilePageModel>(
