@@ -32,6 +32,7 @@ class UserRegistrationLogin {
       request.fields['mobile_number'] = user.mobileNumber;
       request.fields['age'] = user.age.toString();
       request.fields['gender'] = user.gender;
+
       for (var i = 0; i < user.allergies.length; i++) {
         request.fields['allergies[$i]'] = user.allergies[i];
       }
@@ -48,21 +49,20 @@ class UserRegistrationLogin {
         request.fields['emergency_contacts[$i][mobile]'] =
             user.emergencyContacts[i].mobile;
       }
-      if (user.image != null && user.image!.path.isNotEmpty) {
-        request.files.add(
-          await http.MultipartFile.fromPath('image', user.image!.path),
-        );
-      }
 
-      print("Sending Request: ${request.fields}");
+      if (user.image != null && user.image!.path.isNotEmpty) {
+        request.files
+            .add(await http.MultipartFile.fromPath('image', user.image!.path));
+      }
 
       final response = await request.send();
       final responseBody = await response.stream.bytesToString();
 
-      print("Response Status Code: ${response.statusCode}");
-      print("Response Body: $responseBody");
-
       if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("User registered successfully!")),
+        );
+
         final jsonResponse = json.decode(responseBody);
         final registeredUser = User();
         registeredUser.setUsername(jsonResponse['username'] ?? '');
@@ -75,8 +75,6 @@ class UserRegistrationLogin {
 
         if (jsonResponse['image'] != null && jsonResponse['image'].isNotEmpty) {
           registeredUser.setImage(File(jsonResponse['image']));
-        } else {
-          registeredUser.setImage(File(''));
         }
 
         registeredUser
@@ -99,11 +97,15 @@ class UserRegistrationLogin {
         return registeredUser;
       } else {
         final error = json.decode(responseBody);
-        print('Failed to register user. Error: $error');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Registration failed. Error: $error")),
+        );
         throw Exception("Failed to register user. Error: $error");
       }
     } catch (e) {
-      print('Exception: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Exception occurred: $e")),
+      );
       throw Exception("Error: $e");
     }
   }
@@ -124,25 +126,23 @@ class UserRegistrationLogin {
         'password': password,
       };
 
-      print("Sending Data: ${jsonEncode(body)}");
-
       final response = await http.post(
         url,
         headers: headers,
         body: jsonEncode(body),
       );
 
-      print("Response Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
-
       if (response.statusCode == 200) {
-        print('User Login successfully');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Login successful!")),
+        );
 
         final jsonResponse = json.decode(response.body);
         final loginUser = User();
-
         loginUser.setEmail(jsonResponse['email'] ?? '');
+
         sharedPreferences.setString('auth_token', jsonResponse['token']);
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
@@ -151,11 +151,15 @@ class UserRegistrationLogin {
         return loginUser;
       } else {
         final error = json.decode(response.body);
-        print('Failed to Login user. Error: $error');
-        throw Exception("Failed to Login user. Error: $error");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Login failed. Error: $error")),
+        );
+        throw Exception("Failed to login user. Error: $error");
       }
     } catch (e) {
-      print('Exception: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Exception occurred: $e")),
+      );
       throw Exception("Error: $e");
     }
   }
