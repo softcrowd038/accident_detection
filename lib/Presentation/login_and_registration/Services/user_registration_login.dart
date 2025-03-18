@@ -60,7 +60,7 @@ class UserRegistrationLogin {
 
       if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("User registered successfully!")),
+          const SnackBar(content: Text("User registered successfully!")),
         );
 
         final jsonResponse = json.decode(responseBody);
@@ -134,7 +134,7 @@ class UserRegistrationLogin {
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Login successful!")),
+          const SnackBar(content: Text("Login successful!")),
         );
 
         final jsonResponse = json.decode(response.body);
