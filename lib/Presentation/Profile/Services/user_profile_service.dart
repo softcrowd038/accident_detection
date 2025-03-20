@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:accident/Presentation/Profile/Model/user_profile_details.dart';
 import 'package:accident/Presentation/login_and_registration/pages/login_registration.dart';

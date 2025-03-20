@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 import 'package:accident/Presentation/Accident_Detection/services/accident_detection_provider.dart';
 import 'package:accident/Presentation/Navigation/page_navigation.dart';

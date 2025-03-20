@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 import 'package:accident/Presentation/dashboard/Utils/location_provider.dart';
 import 'package:accident/Presentation/dashboard/components/seconadary_components/text_widget.dart';
@@ -57,7 +59,6 @@ class LiveLocationTrackerState extends State<LiveLocationTracker> {
     setState(() {
       _isTextVisible = true;
       _showCurrentAddress = true;
-
 
       Future.delayed(const Duration(seconds: 3), () {
         if (mounted) {

@@ -106,7 +106,7 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
           _userData = userProfileDetails;
         });
       }
-      print(_user?.image);
+
       setState(() {
         _nameController.text = _userData!.name ?? '';
         _allergiesController.text = _userData!.allergies!.first;
@@ -127,7 +127,6 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
     if (_formKey.currentState!.validate()) {
       final user = Provider.of<User>(context, listen: false);
       try {
-        print(user.image);
         final Map<String, dynamic> updatedFields = {
           'name': _nameController.text,
           'address': _addressController.text,

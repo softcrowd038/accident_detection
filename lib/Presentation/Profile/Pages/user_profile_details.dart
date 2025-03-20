@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:accident/Presentation/Accident_Detection/Pages/get_data.dart';
 import 'package:accident/Presentation/Profile/Model/user_profile_details.dart';
 import 'package:accident/Presentation/Profile/Pages/edit_profile.dart';

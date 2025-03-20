@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -15,7 +17,6 @@ class AccelerometerProvider extends ChangeNotifier {
     _isMonitoring = true;
     _accelerometerSubscription = accelerometerEvents.listen((event) {
       _accelerometerValues = [event.x, event.y, event.z];
-      // Add your accident detection logic here
       notifyListeners();
     });
     notifyListeners();

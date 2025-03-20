@@ -1,17 +1,16 @@
 // ignore_for_file: avoid_print
 import 'package:accident/Presentation/Profile/Pages/show_selected_contacts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 
 class ContactListScreen extends StatefulWidget {
   const ContactListScreen({super.key});
 
   @override
-  _ContactListScreenState createState() => _ContactListScreenState();
+  ContactListScreenState createState() => ContactListScreenState();
 }
 
-class _ContactListScreenState extends State<ContactListScreen> {
+class ContactListScreenState extends State<ContactListScreen> {
   List<Contact> _contacts = [];
   List<Contact> _filteredContacts = [];
   final List<Contact> _selectedContacts = [];
@@ -109,9 +108,8 @@ class _ContactListScreenState extends State<ContactListScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.check,
-                color:
-                    _selectedContacts.length < 1 ? Colors.grey : Colors.white),
-            onPressed: _selectedContacts.length < 1
+                color: _selectedContacts.isEmpty ? Colors.grey : Colors.white),
+            onPressed: _selectedContacts.isEmpty
                 ? () {}
                 : _navigateToSelectedContactsScreen,
           ),
