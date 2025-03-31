@@ -59,6 +59,7 @@ class _MainPageState extends State<MainPage> {
   void _accidentListener() {
     if (!mounted) return;
     if (_detected!.isAccidentDetected && !_isPopupOpen) {
+      _isPopupOpen = true;
       _navigateToAccidentPopup();
     }
   }
@@ -72,6 +73,7 @@ class _MainPageState extends State<MainPage> {
         builder: (context) => AccidentPopup(
           onTimeout: () {
             _isPopupOpen = false;
+            _detected?.resetAccidentDetection();
           },
         ),
       ),
