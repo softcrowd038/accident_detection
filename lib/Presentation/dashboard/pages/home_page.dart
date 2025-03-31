@@ -50,7 +50,9 @@ class _MainPageState extends State<MainPage> {
     _detected!.addListener(_accidentListener);
 
     if (_detected!.isAccidentDetected && !_isPopupOpen) {
-      _navigateToAccidentPopup();
+      Future.delayed(Duration.zero, () {
+        _navigateToAccidentPopup();
+      });
     }
   }
 
