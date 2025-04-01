@@ -176,22 +176,41 @@ class UserRegistrationLogin {
       request.headers['Authorization'] = 'Bearer $authToken';
       request.headers['Accept'] = 'application/json';
 
-      // Ensure 'age' is valid (>=1)
-      if (updatedFields['age'] == null || updatedFields['age'] < 1) {
-        updatedFields['age'] = 1; // Set a default valid value
+      if (updatedFields['emergency_contacts'] != null) {
+        print(
+            "Emergency Contacts Before Sending: ${updatedFields['emergency_contacts']}");
+
+        List<Map<String, dynamic>> formattedContacts = [];
+
+        if (updatedFields['emergency_contacts'] is List<EmergencyContact>) {
+          formattedContacts =
+              (updatedFields['emergency_contacts'] as List<EmergencyContact>)
+                  .map((e) => e.toJson())
+                  .toList();
+        } else if (updatedFields['emergency_contacts']
+            is List<Map<String, dynamic>>) {
+          formattedContacts = List<Map<String, dynamic>>.from(
+              updatedFields['emergency_contacts']);
+        }
+
+        // Ensure it is sent correctly with []
+        for (int i = 0; i < formattedContacts.length; i++) {
+          formattedContacts[i].forEach((key, value) {
+            request.fields['emergency_contacts[$i][$key]'] = value.toString();
+          });
+        }
       }
 
-      if (updatedFields['emergency_contacts'] is List<EmergencyContact>) {
-        request.fields['emergency_contacts'] = jsonEncode(
-            updatedFields['emergency_contacts']
-                .map((e) => e.toJson())
-                .toList());
-      }
+      updatedFields.forEach((key, value) {
+        if (key != 'image' && key != 'emergency_contacts' && value != null) {
+          request.fields[key] = value.toString();
+        }
+      });
 
-      // Handle image upload (Only if new image is provided)
-      if (user.image != null && user.image!.path.isNotEmpty) {
+      if (updatedFields['image'] != null && updatedFields['image'] is File) {
         request.files.add(
-          await http.MultipartFile.fromPath('image', user.image!.path),
+          await http.MultipartFile.fromPath(
+              'image', (updatedFields['image'] as File).path),
         );
       }
 
@@ -212,11 +231,6 @@ class UserRegistrationLogin {
 
         final jsonResponse = json.decode(responseData);
 
-        // Update user provider with new data
-        if (jsonResponse['username'] != null) {
-          user.setUsername(jsonResponse['username']);
-        }
-        if (jsonResponse['email'] != null) user.setEmail(jsonResponse['email']);
         if (jsonResponse['name'] != null) user.setName(jsonResponse['name']);
         if (jsonResponse['address'] != null) {
           user.setAddress(jsonResponse['address']);
@@ -224,20 +238,17 @@ class UserRegistrationLogin {
         if (jsonResponse['mobile_number'] != null) {
           user.setMobileNumber(jsonResponse['mobile_number']);
         }
-        if (jsonResponse['age'] != null) user.setAge(jsonResponse['age']);
-        if (jsonResponse['gender'] != null) {
-          user.setGender(jsonResponse['gender']);
-        }
+
         if (jsonResponse['image'] != null && jsonResponse['image'].isNotEmpty) {
           user.setImage(File(jsonResponse['image']));
         }
-
         if (jsonResponse['emergency_contacts'] != null) {
+          print("Updating Emergency Contacts in Provider");
+
           user.setEmergencyContacts(
             (jsonResponse['emergency_contacts'] as List)
                 .map<EmergencyContact>(
-                  (contactJson) => EmergencyContact.fromJson(contactJson),
-                )
+                    (contactJson) => EmergencyContact.fromJson(contactJson))
                 .toList(),
           );
         }

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:accident/Presentation/Profile/Model/user_profile_details.dart';
 import 'package:accident/Presentation/Profile/Services/user_profile_service.dart';
@@ -117,13 +117,9 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
       final user = Provider.of<User>(context, listen: false);
       try {
         final Map<String, dynamic> updatedFields = {
-          'username': user.username,
-          'email': user.email,
           'name': _nameController.text,
           'address': _addressController.text,
           'mobile_number': _phoneController.text,
-          'age': user.age,
-          'gender': user.gender,
           'image': user.image,
           'emergency_contacts': [
             {
@@ -135,6 +131,7 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
         };
 
         UserRegistrationLogin userRegistrationLogin = UserRegistrationLogin();
+
         final updatedUser =
             await userRegistrationLogin.updateUser(context, updatedFields);
 
