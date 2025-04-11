@@ -42,18 +42,19 @@ class HomePageState extends State<HomePage> {
               width: MediaQuery.of(context).size.width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image(
-                    image: const AssetImage("assets/images/logo1.png"),
-                    height: MediaQuery.of(context).size.height * 0.10,
-                    width: MediaQuery.of(context).size.height * 0.10,
+                    image: const AssetImage("assets/images/logo3.gif"),
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.height * 0.05,
                   ),
                 ],
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.035,
-              left: MediaQuery.of(context).size.width * 0.17,
+              top: MediaQuery.of(context).size.height * 0.01,
+              left: MediaQuery.of(context).size.width * 0.15,
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

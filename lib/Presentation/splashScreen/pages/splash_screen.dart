@@ -27,14 +27,18 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigateAfterSplash() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final sharedPreferences = await SharedPreferences.getInstance();
     final authToken = sharedPreferences.getString('auth_token');
     if (authToken != null) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
     } else {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
     }
   }
 
@@ -44,21 +48,72 @@ class _SplashScreenState extends State<SplashScreen> {
     super.dispose();
   }
 
+  Widget _verticalDivider() {
+    return Container(
+      width: 1,
+      height: 20,
+      color: Colors.white,
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff020053),
-      body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image(
-                image: const AssetImage("assets/images/logo.jpeg"),
-                height: MediaQuery.of(context).size.height * 0.250,
-                width: MediaQuery.of(context).size.height * 0.250,
+              const SizedBox(height: 60),
+              Container(
+                color: Colors.white,
+                child: Image.asset(
+                  "assets/images/logo3.gif",
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  width: MediaQuery.of(context).size.height * 0.25,
+                ),
               ),
-            ]),
+              const Spacer(),
+              const Text(
+                'Created By',
+                style: TextStyle(color: Colors.white),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Uday Sonawane',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  _verticalDivider(),
+                  const Text(
+                    'Nilesh Dhongade',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Aditya Sonawane',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  _verticalDivider(),
+                  const Text(
+                    'Prathamesh Kor',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
       ),
     );
   }
